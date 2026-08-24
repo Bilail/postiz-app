@@ -31,15 +31,11 @@ export class LinkedinProvider extends SocialAbstract implements SocialProvider {
   oneTimeToken = true;
 
   isBetweenSteps = false;
-  scopes = [
-    'openid',
-    'profile',
-    'w_member_social',
-    'r_basicprofile',
-    'rw_organization_admin',
-    'w_organization_social',
-    'r_organization_social',
-  ];
+  // Personal profile only needs basic scopes - organization scopes (w_organization_social, etc.)
+  // require special LinkedIn API access (Marketing Developer Platform) that self-hosters may not have.
+  // LinkedinPageProvider overrides this with full org scopes for company page posting.
+  // Patch BBY v2.23.0-bby1 — based on PR #1134 (gitroomhq/postiz-app), closed without merge.
+  scopes = ['openid', 'profile', 'w_member_social'];
   override maxConcurrentJob = 2;
   refreshWait = true;
   editor = 'normal' as const;
